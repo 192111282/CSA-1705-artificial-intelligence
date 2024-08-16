@@ -1,0 +1,20 @@
+% Facts: Initial positions
+at(monkey, a).
+at(banana, b).
+at(box, c).
+on(floor, monkey).
+
+% Move monkey from one place to another
+move(X, Y) :- at(monkey, X), retract(at(monkey, X)), assert(at(monkey, Y)).
+
+% Push box to a new location
+push(X, Y) :- at(monkey, X), at(box, X), retract(at(box, X)), assert(at(box, Y)), move(X, Y).
+
+% Climb on the box
+climb :- at(monkey, X), at(box, X), retract(on(floor, monkey)), assert(on(box, monkey)).
+
+% Grab the banana
+grab :- at(monkey, X), at(banana, X), on(box, monkey).
+
+% Plan: Sequence of actions
+plan :- move(a, c), push(c, b), climb, grab.
